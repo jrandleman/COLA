@@ -35,7 +35,7 @@ $ ./cola yourFile.c // $ ./cola -l yourFile.c
 
 ### Using the `-l` Info Flag:
 * ***Helpful to Debug Programs/Get General Info of the `cola.c` Parser***
-#### `-l` Ouput After Running `cola_SampleExec.c` Through `cola.c`:
+#### `-l` Ouput After Running [`cola_SampleExec.c`](https://github.com/jrandleman/COLA/blob/master/cola_SampleExec.c) Through [`cola.c`](https://github.com/jrandleman/COLA/blob/master/cola.c):
 ```
 >> OVERLOADS:
 	01) NAME "show" OVERLOADS 2 3 1
