@@ -38,14 +38,14 @@ $ ./cola yourFile.c // $ ./cola -l yourFile.c
 #### `-l` Ouput After Running [`cola_SampleExec.c`](https://github.com/jrandleman/COLA/blob/master/cola_SampleExec.c) Through [`cola.c`](https://github.com/jrandleman/COLA/blob/master/cola.c):
 ```
 >> OVERLOADS:
-	01) NAME "show" OVERLOADS 2 3 1
-	02) NAME "assign" OVERLOADS 3 2
+   01) NAME "show"   OVERLOAD ARG LENGTHS 2, 3, 1
+   02) NAME "assign" OVERLOAD ARG LENGTHS 3, 2
 
 >> ALL REGISTERED GLOBAL FCNS/MACROS:
-	01) NAME "show", ARGS LENGTH 2, IS A PROTOTYPE 0
-	02) NAME "show", ARGS LENGTH 3, IS A PROTOTYPE 0
-	03) NAME "assign", ARGS LENGTH 3, IS A PROTOTYPE 0
-	04) NAME "assign", ARGS LENGTH 2, IS A PROTOTYPE 0
-	05) NAME "show", ARGS LENGTH 1, IS A PROTOTYPE 0
-	06) NAME "main", ARGS LENGTH 0, IS A PROTOTYPE 0
+   01) NAME "show",   IS PROTOTYPE 0, TOTAL ARGS 2
+   02) NAME "show",   IS PROTOTYPE 0, TOTAL ARGS 3
+   03) NAME "assign", IS PROTOTYPE 0, TOTAL ARGS 3
+   04) NAME "assign", IS PROTOTYPE 0, TOTAL ARGS 2
+   05) NAME "show",   IS PROTOTYPE 0, TOTAL ARGS 1
+   06) NAME "main",   IS PROTOTYPE 0, TOTAL ARGS 0
 ```
