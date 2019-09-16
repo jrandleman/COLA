@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
   } else // no need to convert file w/o overloads
     printf("\n\033[1m>> cola.c: \033[4mNO\033[0m \033[1m\033[4mOVERLOADS\033[0m \033[1m\033[4mDETECTED\033[0m\033[1m!\033[0m\n\n");
 
-  // NOTE => ADD CMD LINE FILE INPUT W/ "-l" FLAG OPTION !!!!!!!!!
+  // show cola.c's overload/registered global fcn/macro data (if "-l" flag active)
   if(show_cola_info) {
     if(overload_fmacs_size > 0) {
       printf("\033[1m>> \033[4mOVERLOADS\033[0m\033[1m:\033[0m\n");
