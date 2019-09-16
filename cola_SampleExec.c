@@ -14,7 +14,7 @@
  *                         -:- COLA.C 7 CAVEATS -:-                         *
  *   (0) "COLA_" PREFIX IS RESERVED                                         *
  *   (1) NO OVERLOADED VARIADIC FCNS/MACROS                                 *
- *   (2) NO OVERLOADS W/IN CONDITIONAL PREPROCESSOR DIRECTIVES directives   *
+ *   (2) NO OVERLOADS W/IN CONDITIONAL PREPROCESSOR DIRECTIVES              *
  *       (*) IE NOT W/IN: #if, #ifdef, #ifndef, #elif, #else, & #endif      *
  *   (3) NO FCN PTRS POINTING TO OVERLOADED FCNS                            *
  *       (*) can't determine overloaded arg # from only overloaded fcn name *
