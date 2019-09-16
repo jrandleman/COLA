@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
     if(overload_fmacs_size > 0) {
       printf("\033[1m>> \033[4mOVERLOADS\033[0m\033[1m:\033[0m\n");
       for(int i = 0; i < overload_fmacs_size; ++i) {
-        printf("\t%02d) \033[1m\033[4mNAME\033[0m \"%s\" \033[1m\033[4mOVERLOADS\033[0m", i + 1, overload_fmacs[i].name);      
+        printf("   %02d) \033[1m\033[4mNAME\033[0m \"%s\" \033[1m\033[4mOVERLOADS\033[0m", i + 1, overload_fmacs[i].name);      
         for(int j = 0; j < overload_fmacs[i].arg_sizes_length; ++j)
           printf(" %d", overload_fmacs[i].arg_sizes[j]);
         printf("\n");
@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
 
     printf("\033[1m>> \033[4mALL REGISTERED GLOBAL FCNS/MACROS\033[0m\033[1m:\033[0m\n");
     for(int i = 0; i < fmacs_size; ++i)
-      printf("\t%02d) \033[1m\033[4mNAME\033[0m \"%s\", \033[1m\033[4mARGS LENGTH\033[0m %d, \033[1m\033[4mIS A PROTOTYPE\033[0m %d\n", 
+      printf("   %02d) \033[1m\033[4mNAME\033[0m \"%s\", \033[1m\033[4mARGS LENGTH\033[0m %d, \033[1m\033[4mIS A PROTOTYPE\033[0m %d\n", 
         i + 1, fmacs[i].name, fmacs[i].args, fmacs[i].is_a_prototype);
     printf("\n");
   }
