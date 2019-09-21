@@ -37,21 +37,19 @@
  ||  ))|| || ||   || || ||\\//|| ||=   ||\\|| || |/===\| ||   ||  || || ||\\||
  ||_// \\=// \\=/ \\=// || \/ || \|==/ || \// || ||   || ||  ==== \\=// || \//
  *****************************************************************************
- *                         -:- COLA.C X CAVEATS -:-                         *
+ *                         -:- COLA.C 9 CAVEATS -:-                         *
  *   => "COLA INSTANCE" = "fcn/macro overload OR fcn w/ default arg values" *
  *   (0) "COLA_" PREFIX IS RESERVED                                         *
  *   (1) NO VARIADIC COLA INSTANCES                                         *
- *   (2) NO COLA INSTANCES W/IN CONDITIONAL PREPROCESSOR DIRECTIVES         *
- *       (*) IE NOT W/IN: #if, #ifdef, #ifndef, #elif, #else, & #endif      *
- *   (3) NO FCN PTRS POINTING TO COLA INSTANCES                             *
+ *   (2) NO FCN PTRS POINTING TO COLA INSTANCES                             *
  *       (*) can't determine overloaded arg # from only overloaded fcn name *
- *   (4) NO REDEFINING COLA INSTANCE NAME TO OTHER VARS REGARDLESS OF SCOPE *
- *   (5) NO OVERLOADED MACROS CAN EVER BE "#undef"'d                        *
- *   (6) ONLY COLA INSTANCES DEFINED/PROTOTYPED GLOBALLY WILL BE RECOGNIZED *
- *   (7) ONLY FUNCTIONS MAY BE ASSIGNED DEFAULT VALUES - NEVER MACROS!      *
- *   (8) NO ARG W/ A DEFAULT VALUE MAY PRECEDE AN ARG W/O A DEFAULT VALUE   *
+ *   (3) NO REDEFINING COLA INSTANCE NAME TO OTHER VARS REGARDLESS OF SCOPE *
+ *   (4) NO OVERLOADED MACROS CAN EVER BE "#undef"'d                        *
+ *   (5) ONLY COLA INSTANCES DEFINED/PROTOTYPED GLOBALLY WILL BE RECOGNIZED *
+ *   (6) ONLY FUNCTIONS MAY BE ASSIGNED DEFAULT VALUES - NEVER MACROS!      *
+ *   (7) NO ARG W/ A DEFAULT VALUE MAY PRECEDE AN ARG W/O A DEFAULT VALUE   *
  *       (*) args w/ default values must always by last in a fcn's arg list *
- *   (9) FCN PROTOTYPES TAKE PRECEDENT OVER DEFINITIONS WRT DEFAULT VALS    *
+ *   (8) FCN PROTOTYPES TAKE PRECEDENT OVER DEFINITIONS WRT DEFAULT VALS    *
  *       (*) if a fcn proto has default vals but its defn doesn't (or vise  *
  *           versa) fcn will be treated as if both had the default vals     *
  *       (*) if a fcn proto has DIFFERENT default vals from its defn, the   *
@@ -108,9 +106,8 @@ int unique_dflt_fcns_size = 0; // total unique fcn names associated w/ having 1+
 /* STRING, CHAR, AND GLOBAL SCOPES STATUS UPDATING && STRING HELPER FUNCTIONS */
 void handle_string_char_brace_scopes(bool*, bool*, int*, char*);
 bool is_at_substring(char*, char*);
-/* COMMENT, CONDITIONAL DIRECTIVE, & MACRO-BODY SKIP/CPY FUNCTIONS */
+/* COMMENT & MACRO-BODY SKIP/CPY FUNCTIONS */
 char *cola_skip_comments(char*, char*);
-char *cola_skip_conditional_directives(char*, char*);
 char *skip_macro_body(char*);
 /* "fmacs" (FUNCTION MACRO INSTANCES) STRUCT HELPER FUNCTIONS */
 int non_prototype_duplicate_instance_in_fmacs(char*, int);
@@ -278,7 +275,7 @@ bool is_at_substring(char *p, char *substr) {
 }
 
 /******************************************************************************
-* COMMENT, CONDITIONAL DIRECTIVE, & MACRO-BODY SKIP/CPY FUNCTIONS
+* COMMENT & MACRO-BODY SKIP/CPY FUNCTIONS
 ******************************************************************************/
 
 // if at a comment instance in "*read" skips over them (& copies to "*write" "write" != NULL)
@@ -295,31 +292,6 @@ char *cola_skip_comments(char *read, char *write) {
       if(cpy_comments) *write++ = *read++; else ++read;            // skip/copy comment w/o parsing
     }
     if(cpy_comments) *write++ = *read++, *write++ = *read++; else read += 2;                     // skip last '*' & '/'
-  }
-  return read;
-}
-
-// if at a preprocessor conditional directive instance in "*read", skips over 
-// (& copies to "*write" if "write" != NULL)
-char *cola_skip_conditional_directives(char *read, char *write) {
-  bool cpy_dirs = (write != NULL);
-  // conditional directives = #if, #ifdef, #ifndef, #elif, #else, & #endif
-  char *scout = read - 1;
-  bool in_a_string = false, in_a_char = false;
-  int in_global_scope = 0, in_conditional_scope = 1;
-  if(is_at_substring(read, "#if")) {
-    // global outer (non-nested) conditional directives only defined after '\n' & optional whitespace sequence
-    while(*scout == ' ' || *scout == '\t') --scout;
-    if(*scout == '\n') { // at a conditional directive
-      if(cpy_dirs) *write++ = *read++, *write++ = *read++, *write++ = *read++; else read += 3; // skip/cpy initial "#if"
-      while(in_conditional_scope > 0) {
-        handle_string_char_brace_scopes(&in_a_string, &in_a_char, &in_global_scope, read);
-        if(!in_a_string && !in_a_char && is_at_substring(read, "#if"))         ++in_conditional_scope;
-        else if(!in_a_string && !in_a_char && is_at_substring(read, "#endif")) --in_conditional_scope;
-        if(in_conditional_scope <= 0) break;
-        if(cpy_dirs) *write++ = *read++; else ++read;
-      }
-    }
   }
   return read;
 }
@@ -742,9 +714,8 @@ bool is_function_prototype(char *r) {
 * MAIN ACCOUNTING FUNCTION FOR FUNCTION/MACRO DEFINITIONS IN FILE
 ******************************************************************************/
 
-// register all functions & macros declared globaclly outside of conditional
-// preprocessor directives, along w/ their arg number & overloaded status
-// (fills "fmacs" which then gets filtered into "overload_fmacs" on return to main)
+// register all functions & macros declared globally along w/ their arg # & overloaded
+// status (fills "fmacs" which then gets filtered into "overload_fmacs" on return to main)
 void register_all_global_function_macro_defs(char *read) {
   char *r = read, *scout, function_name[MAX_TOKEN_NAME_LENGTH], bad_code_buffer[BAD_CODE_BUFFER_LENGTH];
   bool in_a_string = false, in_a_char = false, overload, prototype, macro;
@@ -754,11 +725,8 @@ void register_all_global_function_macro_defs(char *read) {
   // register all function/macro names in file to detect overloads prior to prefixing invocations
   while(*r != '\0') {
     handle_string_char_brace_scopes(&in_a_string, &in_a_char, &in_global_scope, r);
-    if(!in_a_string && !in_a_char) {
+    if(!in_a_string && !in_a_char)
       r = cola_skip_comments(r, NULL);
-      if(*r != '\0' && in_global_scope == 0) 
-        r = cola_skip_conditional_directives(r, NULL);
-    }
     if(!in_a_string && !in_a_char && in_global_scope == 0 && *r == '(') { // potential function/macro
       // check if at a macro, & if so confirm its "functionlike" (can't overload non-functionlike macros)
       macro = is_at_macro_name(r);
@@ -842,11 +810,8 @@ void prefix_overloaded_and_splice_default_value_instances(char *read, char *writ
   while(*r != '\0') {
     // account for scopes
     handle_string_char_brace_scopes(&in_a_string, &in_a_char, &ignore_arg, r);
-    if(!in_a_string && !in_a_char) {
+    if(!in_a_string && !in_a_char) 
       r = cola_skip_comments(r, w), w += strlen(w);
-      if(!in_a_string && !in_a_char && *r != '\0') 
-        r = cola_skip_conditional_directives(r, w), w += strlen(w);
-    }
     // -:- PARSE FOR DEFAULTS -:- 
     // check for potential fcn invocation that has default args values
     if(!in_a_string && !in_a_char && VARCHAR(*r) && !VARCHAR(*(r-1))) {
