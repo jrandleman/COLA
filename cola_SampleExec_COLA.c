@@ -12,23 +12,21 @@
  ||  ))|| || ||   || || ||\\//|| ||=   ||\\|| || |/===\| ||   ||  || || ||\\||
  ||_// \\=// \\=/ \\=// || \/ || \|==/ || \// || ||   || ||  ==== \\=// || \//
  *****************************************************************************
- *                         -:- COLA.C X CAVEATS -:-                         *
+ *                         -:- COLA.C 9 CAVEATS -:-                         *
  *   => "COLA INSTANCE" = "fcn/macro overload OR fcn w/ default arg values" *
  *   (0) "COLA_" PREFIX IS RESERVED                                         *
  *   (1) NO VARIADIC COLA INSTANCES                                         *
- *   (2) NO COLA INSTANCES W/IN CONDITIONAL PREPROCESSOR DIRECTIVES         *
- *       (*) IE NOT W/IN: #if, #ifdef, #ifndef, #elif, #else, & #endif      *
- *   (3) NO FCN PTRS POINTING TO COLA INSTANCES                             *
+ *   (2) NO FCN PTRS POINTING TO COLA INSTANCES                             *
  *       (*) can't determine overloaded arg # from only overloaded fcn name *
- *   (4) NO REDEFINING COLA INSTANCE NAME TO OTHER VARS REGARDLESS OF SCOPE *
- *   (5) NO OVERLOADED MACROS CAN EVER BE "#undef"'d                        *
- *   (6) ONLY COLA INSTANCES DEFINED/PROTOTYPED GLOBALLY WILL BE RECOGNIZED *
- *   (7) ONLY FUNCTIONS MAY BE ASSIGNED DEFAULT VALUES - NEVER MACROS!      *
- *   (8) NO ARG W/ A DEFAULT VALUE MAY PRECEDE AN ARG W/O A DEFAULT VALUE   *
+ *   (3) NO REDEFINING COLA INSTANCE NAME TO OTHER VARS REGARDLESS OF SCOPE *
+ *   (4) NO OVERLOADED MACROS CAN EVER BE "#undef"'d                        *
+ *   (5) ONLY COLA INSTANCES DEFINED/PROTOTYPED GLOBALLY WILL BE RECOGNIZED *
+ *   (6) ONLY FUNCTIONS MAY BE ASSIGNED DEFAULT VALUES - NEVER MACROS!      *
+ *   (7) NO ARG W/ A DEFAULT VALUE MAY PRECEDE AN ARG W/O A DEFAULT VALUE   *
  *       (*) args w/ default values must always by last in a fcn's arg list *
- *   (9) FCN PROTOTYPES TAKE PRECEDENT OVER DEFINITIONS WRT DEFAULT VALS    *
+ *   (8) FCN PROTOTYPES TAKE PRECEDENT OVER DEFINITIONS WRT DEFAULT VALS    *
  *       (*) if a fcn proto has default vals but its defn doesn't (or vise  *
- *           versa) fcn will be treated as if has default vals              *
+ *           versa) fcn will be treated as if both had the default vals     *
  *       (*) if a fcn proto has DIFFERENT default vals from its defn, the   *
  *           fcn's proto default vals are treated as the only default vals  *
  *****************************************************************************
