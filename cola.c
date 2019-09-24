@@ -24,7 +24,7 @@
 #define VARCHAR(CH) (((CH)>='A' && (CH)<='Z') || ((CH)>='a' && (CH)<='z') || (((CH)>='0' && (CH)<='9')) || (CH) == '_')
 // max filesize, max # fcns/macros per program, max # of unique overloads per fcn/macro
 // self imposed for memory's sake, increment as needed
-#define MAX_FILESIZE 1000001                                       // 1 gigabyte + '\0'
+#define MAX_FILESIZE 1000001                                       // 1 megabyte + '\0'
 #define MAX_TOTAL_NUMBER_OF_FUNCTIONS_AND_MACROS_IN_PROGRAM 5000   // max # of macros & fcns parsed file can have
 #define MAX_UNIQUE_OVERLOADS_PER_OVERLOADED_FCN_MACRO_INSTANCE 100 // max # of COLA's per overloaded fcn/macro name
 #define MAX_LENGTH_PER_ARG 1001    // max # of characters per fcn arg list parsed file can have
