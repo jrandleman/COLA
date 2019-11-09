@@ -168,7 +168,8 @@ int store_dflt_value(int, char*);
 
 int main(int argc, char *argv[]) {
   // confirm passed .c file in cmd line arg to cola
-  if(argc<2 || argc>3 || argv[argc-1][strlen(argv[argc-1])-2] != '.' || argv[argc-1][strlen(argv[argc-1])-1] != 'c') 
+  if(argc<2 || argc>3 || argv[argc-1][strlen(argv[argc-1])-2] != '.' || 
+    (argv[argc-1][strlen(argv[argc-1])-1] != 'c' && argv[argc-1][strlen(argv[argc-1])-1] != 'C')) 
     cola_missing_Cfile_alert();
   // determine if displaying cola info at exit as per '-l' argv[1]
   bool show_cola_info = false;
